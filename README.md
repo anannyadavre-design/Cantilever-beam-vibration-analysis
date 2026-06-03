@@ -9,5 +9,4 @@ Natural frequency = 16.55 Hz
 zeta_values =
 
     0.0500    0.1500    0.3000
-    ## Plots
 
