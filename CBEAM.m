@@ -48,3 +48,36 @@ title('Free Vibration of Cantilever Beam Tip')
 legend('Location','northeast')
 grid on    
 
+% Step 4: Time Domain Forced Response
+
+wn = 2 * pi * 16.55;
+zeta = 0.05;
+F0 = 1;          % Force amplitude, 1 Newton
+k = 1000;        % Stiffness from Step 1
+
+t = linspace(0, 3, 5000);
+
+omega_ratios = [0.5, 1.0, 1.5];
+labels = {'r = 0.5 (below resonance)', 'r = 1.0 (resonance)', 'r = 1.5 (above resonance)'};
+colors = {'b', 'r', 'g'};
+
+figure;
+for i = 1:3
+    omega = omega_ratios(i) * wn;
+    r = omega_ratios(i);
+
+    DMF = 1 / sqrt((1 - r^2)^2 + (2*zeta*r)^2);
+    X = (F0/k) * DMF;
+    phi = atan2(2*zeta*r, 1 - r^2);
+
+    x_ss = X * sin(omega*t - phi);
+
+    subplot(3,1,i);
+    plot(t, x_ss*1000, colors{i}, 'LineWidth', 1.5);
+    ylabel('Displacement (mm)');
+    title(labels{i});
+    grid on;
+end
+
+xlabel('Time (s)');
+sgtitle('Tip Displacement Under Forced Vibration');
